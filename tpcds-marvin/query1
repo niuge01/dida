@@ -1,0 +1,370 @@
+{
+	"frequency": 1,
+	"root": {
+		"alias": "node35",
+		"operator": "LIMIT",
+		"outputDataCount": 100,
+		"cost": {
+			"cpu": 0.25,
+			"memory": 0
+		},
+		"inputs": [{
+			"alias": "node34",
+			"operator": "LIMIT",
+			"outputDataCount": 100,
+			"cost": {
+				"cpu": 0.25,
+				"memory": 0
+			},
+			"inputs": [{
+				"alias": "node33",
+				"operator": "SORT",
+				"outputDataCount": 500,
+				"sortBy": "c_customer_id#83 ASC NULLS FIRST",
+				"cost": {
+					"cpu": 0.75,
+					"memory": 0
+				},
+				"inputs": [{
+					"alias": "node32",
+					"operator": "PROJECT",
+					"outputDataCount": 500,
+					"projections": "c_customer_id#83",
+					"cost": {
+						"cpu": 0.25,
+						"memory": 0
+					},
+					"inputs": [{
+						"alias": "node31",
+						"operator": "JOIN",
+						"outputDataCount": 500,
+						"type": "Inner",
+						"condition": "(ctr_customer_sk#1 = c_customer_sk#82)",
+						"cost": {
+							"cpu": 0.75,
+							"memory": 100
+						},
+						"inputs": [{
+							"alias": "node27",
+							"operator": "PROJECT",
+							"outputDataCount": 500,
+							"projections": "ctr_customer_sk#1",
+							"cost": {
+								"cpu": 0.25,
+								"memory": 0
+							},
+							"inputs": [{
+								"alias": "node26",
+								"operator": "JOIN",
+								"outputDataCount": 500,
+								"type": "Inner",
+								"condition": "(s_store_sk#53 = ctr_store_sk#2)",
+								"cost": {
+									"cpu": 0.75,
+									"memory": 100
+								},
+								"inputs": [{
+									"alias": "node22",
+									"operator": "PROJECT",
+									"outputDataCount": 25,
+									"projections": "ctr_customer_sk#1, ctr_store_sk#2",
+									"cost": {
+										"cpu": 0.25,
+										"memory": 0
+									},
+									"inputs": [{
+										"alias": "node21",
+										"operator": "JOIN",
+										"outputDataCount": 25,
+										"type": "Inner",
+										"condition": "((cast(ctr_total_return#3 as decimal(24,7)) > (CAST(avg(ctr_total_return) AS DECIMAL(21,6)) * CAST(1.2 AS DECIMAL(21,6)))#101) && (ctr_store_sk#2 = ctr_store_sk#2#117))",
+										"cost": {
+											"cpu": 0.75,
+											"memory": 100
+										},
+										"inputs": [{
+											"alias": "node9",
+											"operator": "FILTER",
+											"outputDataCount": 25,
+											"condition": "isnotnull(ctr_total_return#3)",
+											"cost": {
+												"cpu": 0.25,
+												"memory": 0
+											},
+											"inputs": [{
+												"alias": "node8",
+												"operator": "AGGREGATE",
+												"outputDataCount": 50,
+												"aggregations": "sr_customer_sk#7 AS ctr_customer_sk#1, sr_store_sk#11 AS ctr_store_sk#2, MakeDecimal(sum(UnscaledValue(SR_FEE#18)),17,2) AS ctr_total_return#3",
+												"groupBy": "sr_customer_sk#7, sr_store_sk#11",
+												"cost": {
+													"cpu": 0.75,
+													"memory": 100
+												},
+												"inputs": [{
+													"alias": "node7",
+													"operator": "PROJECT",
+													"outputDataCount": 500,
+													"projections": "sr_customer_sk#7, sr_store_sk#11, sr_fee#18",
+													"cost": {
+														"cpu": 0.25,
+														"memory": 0
+													},
+													"inputs": [{
+														"alias": "node6",
+														"operator": "JOIN",
+														"outputDataCount": 500,
+														"type": "Inner",
+														"condition": "(sr_returned_date_sk#4 = d_date_sk#24)",
+														"cost": {
+															"cpu": 0.75,
+															"memory": 100
+														},
+														"inputs": [{
+															"alias": "node2",
+															"operator": "PROJECT",
+															"outputDataCount": 500,
+															"projections": "sr_returned_date_sk#4, sr_customer_sk#7, sr_store_sk#11, sr_fee#18",
+															"cost": {
+																"cpu": 0.25,
+																"memory": 0
+															},
+															"inputs": [{
+																"alias": "node1",
+																"operator": "FILTER",
+																"outputDataCount": 500,
+																"condition": "((isnotnull(sr_returned_date_sk#4) && isnotnull(sr_store_sk#11)) && isnotnull(sr_customer_sk#7))",
+																"cost": {
+																	"cpu": 0.25,
+																	"memory": 0
+																},
+																"inputs": [{
+																	"alias": "node0",
+																	"operator": "SCAN",
+																	"outputDataCount": 1000,
+																	"name": "store_returns",
+																	"updateFrequency": 0.1,
+																	"cost": {
+																		"cpu": 0.25,
+																		"memory": 0
+																	}
+																}]
+															}]
+														}, {
+															"alias": "node5",
+															"operator": "PROJECT",
+															"outputDataCount": 500,
+															"projections": "d_date_sk#24",
+															"cost": {
+																"cpu": 0.25,
+																"memory": 0
+															},
+															"inputs": [{
+																"alias": "node4",
+																"operator": "FILTER",
+																"outputDataCount": 500,
+																"condition": "((isnotnull(d_year#30) && (d_year#30 = 2000)) && isnotnull(d_date_sk#24))",
+																"cost": {
+																	"cpu": 0.25,
+																	"memory": 0
+																},
+																"inputs": [{
+																	"alias": "node3",
+																	"operator": "SCAN",
+																	"outputDataCount": 1000,
+																	"name": "date_dim",
+																	"updateFrequency": 0.1,
+																	"cost": {
+																		"cpu": 0.25,
+																		"memory": 0
+																	}
+																}]
+															}]
+														}]
+													}]
+												}]
+											}]
+										}, {
+											"alias": "node20",
+											"operator": "FILTER",
+											"outputDataCount": 2,
+											"condition": "isnotnull((CAST(avg(ctr_total_return) AS DECIMAL(21,6)) * CAST(1.2 AS DECIMAL(21,6)))#101)",
+											"cost": {
+												"cpu": 0.25,
+												"memory": 0
+											},
+											"inputs": [{
+												"alias": "node19",
+												"operator": "AGGREGATE",
+												"outputDataCount": 5,
+												"aggregations": "CheckOverflow((promote_precision(avg(ctr_total_return#3)) * 1.200000), DecimalType(24,7)) AS (CAST(avg(ctr_total_return) AS DECIMAL(21,6)) * CAST(1.2 AS DECIMAL(21,6)))#101, ctr_store_sk#2 AS ctr_store_sk#2#117",
+												"groupBy": "ctr_store_sk#2",
+												"cost": {
+													"cpu": 0.75,
+													"memory": 100
+												},
+												"inputs": [{
+													"alias": "node18",
+													"operator": "AGGREGATE",
+													"outputDataCount": 50,
+													"aggregations": "sr_store_sk#11 AS ctr_store_sk#2, MakeDecimal(sum(UnscaledValue(SR_FEE#18)),17,2) AS ctr_total_return#3",
+													"groupBy": "sr_customer_sk#7, sr_store_sk#11",
+													"cost": {
+														"cpu": 0.75,
+														"memory": 100
+													},
+													"inputs": [{
+														"alias": "node17",
+														"operator": "PROJECT",
+														"outputDataCount": 500,
+														"projections": "sr_customer_sk#7, sr_store_sk#11, sr_fee#18",
+														"cost": {
+															"cpu": 0.25,
+															"memory": 0
+														},
+														"inputs": [{
+															"alias": "node16",
+															"operator": "JOIN",
+															"outputDataCount": 500,
+															"type": "Inner",
+															"condition": "(sr_returned_date_sk#4 = d_date_sk#24)",
+															"cost": {
+																"cpu": 0.75,
+																"memory": 100
+															},
+															"inputs": [{
+																"alias": "node12",
+																"operator": "PROJECT",
+																"outputDataCount": 500,
+																"projections": "sr_returned_date_sk#4, sr_customer_sk#7, sr_store_sk#11, sr_fee#18",
+																"cost": {
+																	"cpu": 0.25,
+																	"memory": 0
+																},
+																"inputs": [{
+																	"alias": "node11",
+																	"operator": "FILTER",
+																	"outputDataCount": 500,
+																	"condition": "(isnotnull(sr_returned_date_sk#4) && isnotnull(sr_store_sk#11))",
+																	"cost": {
+																		"cpu": 0.25,
+																		"memory": 0
+																	},
+																	"inputs": [{
+																		"alias": "node10",
+																		"operator": "SCAN",
+																		"outputDataCount": 1000,
+																		"name": "store_returns",
+																		"updateFrequency": 0.1,
+																		"cost": {
+																			"cpu": 0.25,
+																			"memory": 0
+																		}
+																	}]
+																}]
+															}, {
+																"alias": "node15",
+																"operator": "PROJECT",
+																"outputDataCount": 500,
+																"projections": "d_date_sk#24",
+																"cost": {
+																	"cpu": 0.25,
+																	"memory": 0
+																},
+																"inputs": [{
+																	"alias": "node14",
+																	"operator": "FILTER",
+																	"outputDataCount": 500,
+																	"condition": "((isnotnull(d_year#30) && (d_year#30 = 2000)) && isnotnull(d_date_sk#24))",
+																	"cost": {
+																		"cpu": 0.25,
+																		"memory": 0
+																	},
+																	"inputs": [{
+																		"alias": "node13",
+																		"operator": "SCAN",
+																		"outputDataCount": 1000,
+																		"name": "date_dim",
+																		"updateFrequency": 0.1,
+																		"cost": {
+																			"cpu": 0.25,
+																			"memory": 0
+																		}
+																	}]
+																}]
+															}]
+														}]
+													}]
+												}]
+											}]
+										}]
+									}]
+								}, {
+									"alias": "node25",
+									"operator": "PROJECT",
+									"outputDataCount": 500,
+									"projections": "s_store_sk#53",
+									"cost": {
+										"cpu": 0.25,
+										"memory": 0
+									},
+									"inputs": [{
+										"alias": "node24",
+										"operator": "FILTER",
+										"outputDataCount": 500,
+										"condition": "((isnotnull(s_state#77) && (s_state#77 = NM)) && isnotnull(s_store_sk#53))",
+										"cost": {
+											"cpu": 0.25,
+											"memory": 0
+										},
+										"inputs": [{
+											"alias": "node23",
+											"operator": "SCAN",
+											"outputDataCount": 1000,
+											"name": "store",
+											"updateFrequency": 0.1,
+											"cost": {
+												"cpu": 0.25,
+												"memory": 0
+											}
+										}]
+									}]
+								}]
+							}]
+						}, {
+							"alias": "node30",
+							"operator": "PROJECT",
+							"outputDataCount": 500,
+							"projections": "c_customer_sk#82, c_customer_id#83",
+							"cost": {
+								"cpu": 0.25,
+								"memory": 0
+							},
+							"inputs": [{
+								"alias": "node29",
+								"operator": "FILTER",
+								"outputDataCount": 500,
+								"condition": "isnotnull(c_customer_sk#82)",
+								"cost": {
+									"cpu": 0.25,
+									"memory": 0
+								},
+								"inputs": [{
+									"alias": "node28",
+									"operator": "SCAN",
+									"outputDataCount": 1000,
+									"name": "customer",
+									"updateFrequency": 0.1,
+									"cost": {
+										"cpu": 0.25,
+										"memory": 0
+									}
+								}]
+							}]
+						}]
+					}]
+				}]
+			}]
+		}]
+	}
+}
