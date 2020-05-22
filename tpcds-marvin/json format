@@ -1,0 +1,34 @@
+1. 共有属性
+   name
+   operator
+   outputDataCount
+   cost
+   inputs
+   
+2. 特有属性
+   a) LIMIT
+      limit
+	  
+   b) SORT
+      sortBy
+	  
+   c) AGGREGATE
+      aggregations
+	  groupBy
+	  
+   d) PROJECT
+      projections
+	  
+   e) SCAN
+      name
+	  
+   f) FILTER
+      condition
+	  
+   g) UNION
+   
+   h) JOIN
+      condition
+	  type
+	  
+   i) DISTINCT
